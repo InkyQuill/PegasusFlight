@@ -1,0 +1,40 @@
+name: PegasusAbilities
+main: org.equestria.minecraft.abilities.pegasus.PegasusAbilities
+version: 0.1
+commands:
+  flight:
+    description: Flight command.
+    aliases: fly
+    usage: /flight [command]
+permissions:
+  flight.admin:
+    description: Allows use of all Flight commands.
+    children:
+      flight.help: true
+      flight.toggle: true
+      flight.on: true
+      flight.off: true
+      flight.check: true
+      flight.haste: true
+      flight.rainboom: true
+  flight.help:
+    description: Allows use of the help command.
+    default: op
+  flight.toggle:
+    description: Allows use of the toggle command.
+    default: op
+  flight.on:
+    description: Allows use of the on command.
+    default: op
+  flight.off:
+    description: Allows use of the oh command.
+    default: op
+  flight.check:
+    description: Allows use of the check command.
+    default: op
+  flight.haste:
+    description: haste.
+    default: op
+  flight.rainboom:
+    description: rainboom.
+    default: op
