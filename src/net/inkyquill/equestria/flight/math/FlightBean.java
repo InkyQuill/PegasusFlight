@@ -1,7 +1,5 @@
-/*
- * Decompiled with CFR 0_110.
- */
-package org.equestria.minecraft.abilities.pegasus.flight;
+
+package net.inkyquill.equestria.flight.math;
 
 public class FlightBean {
     private int power;

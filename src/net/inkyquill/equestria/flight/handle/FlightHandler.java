@@ -12,33 +12,28 @@
  *  org.bukkit.event.entity.FoodLevelChangeEvent
  *  org.bukkit.plugin.PluginManager
  */
-package org.equestria.minecraft.abilities.pegasus.flight;
+package net.inkyquill.equestria.flight.handle;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import net.inkyquill.equestria.flight.math.FlightBean;
+import net.inkyquill.equestria.flight.properties.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.plugin.PluginManager;
-import org.equestria.minecraft.abilities.pegasus.flight.Commands;
-import org.equestria.minecraft.abilities.pegasus.flight.FlightBean;
-import org.equestria.minecraft.abilities.pegasus.properties.FlightProperties;
+import net.inkyquill.equestria.flight.commands.Commands;
 
 public class FlightHandler {
-    private static final String FLIGHT_PREFIX = "[Flight] ";
+
     private static final ChatColor YELLOW_COLOR = ChatColor.YELLOW;
     private static final ChatColor GREEN_COLOR = ChatColor.GREEN;
     private static final ChatColor RED_COLOR = ChatColor.RED;
-    private static Map<String, Commands> commandsMap = new HashMap<String, Commands>();
     public static Map<Player, FlightBean> hasteMap = new HashMap<Player, FlightBean>();
-    public static final Logger log = Logger.getLogger("FlightAbility");
-    private static /* synthetic */ int[] $SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands;
+    private static Map<String, Commands> commandsMap = new HashMap<String, Commands>();
 
     static {
         FlightHandler.initCommandsMap();
@@ -85,32 +80,32 @@ public class FlightHandler {
             FlightHandler.noPermsMessage(player);
             return false;
         }
-        switch (FlightHandler.$SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands()[command.ordinal()]) {
-            case 1: {
+        switch (command) {
+            case HELP: {
                 FlightHandler.helpCommand(player, stringCommand);
                 return true;
             }
-            case 6: {
+            case CHECK: {
                 FlightHandler.checkCommand(player, stringCommand);
                 return true;
             }
-            case 3: {
+            case HASTE: {
                 FlightHandler.flyHaste(player, stringCommand);
                 return true;
             }
-            case 5: {
+            case OFF: {
                 FlightHandler.flyOff(player, stringCommand);
                 return true;
             }
-            case 4: {
+            case ON: {
                 FlightHandler.flyOn(player, stringCommand);
                 return true;
             }
-            case 7: {
+            case RAINBOOM: {
                 FlightHandler.flyRainboom(player, stringCommand);
                 return true;
             }
-            case 2: {
+            case TOGGLE: {
                 FlightHandler.toggleCommand(player, stringCommand);
                 return true;
             }
@@ -238,15 +233,15 @@ public class FlightHandler {
 
     private static void flyHaste(Player player, String args) {
         int foodLevel = player.getFoodLevel();
-        if (foodLevel < FlightProperties.getInt("HasteExhaustLevel")) {
+        if (foodLevel < Settings.getInt("HasteExhaustLevel")) {
             FlightHandler.sendExhaustedMessage(player);
             return;
         }
         Map<Player, FlightBean> map = hasteMap;
         synchronized (map) {
-            FlightBean flightBean = new FlightBean(FlightProperties.getInt("HasteDuration"), FlightProperties.getInt("HastePower"));
+            FlightBean flightBean = new FlightBean(Settings.getInt("HasteDuration"), Settings.getInt("HastePower"));
             hasteMap.put(player, flightBean);
-            player.setFoodLevel(foodLevel - FlightProperties.getInt("HasteExhaustDecrement"));
+            player.setFoodLevel(foodLevel - Settings.getInt("HasteExhaustDecrement"));
             FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, player.getFoodLevel());
             Bukkit.getServer().getPluginManager().callEvent(event);
         }
@@ -254,15 +249,15 @@ public class FlightHandler {
 
     private static void flyRainboom(Player player, String args) {
         int foodLevel = player.getFoodLevel();
-        if (foodLevel < FlightProperties.getInt("RainboomExhaustLevel")) {
+        if (foodLevel < Settings.getInt("RainboomExhaustLevel")) {
             FlightHandler.sendExhaustedMessage(player);
             return;
         }
         Map<Player, FlightBean> map = hasteMap;
         synchronized (map) {
-            FlightBean flightBean = new FlightBean(FlightProperties.getInt("RainboomDuration"), FlightProperties.getInt("RainboomPower"));
+            FlightBean flightBean = new FlightBean(Settings.getInt("RainboomDuration"), Settings.getInt("RainboomPower"));
             hasteMap.put(player, flightBean);
-            player.setFoodLevel(foodLevel - FlightProperties.getInt("RainboomExhaustDecrement"));
+            player.setFoodLevel(foodLevel - Settings.getInt("RainboomExhaustDecrement"));
             FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, player.getFoodLevel());
             Bukkit.getServer().getPluginManager().callEvent(event);
         }
@@ -315,43 +310,6 @@ public class FlightHandler {
         return player.hasPermission(command);
     }
 
-    static /* synthetic */ int[] $SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands() {
-        int[] arrn;
-        int[] arrn2 = $SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands;
-        if (arrn2 != null) {
-            return arrn2;
-        }
-        arrn = new int[Commands.values().length];
-        try {
-            arrn[Commands.CHECK.ordinal()] = 6;
-        }
-        catch (NoSuchFieldError v1) {}
-        try {
-            arrn[Commands.HASTE.ordinal()] = 3;
-        }
-        catch (NoSuchFieldError v2) {}
-        try {
-            arrn[Commands.HELP.ordinal()] = 1;
-        }
-        catch (NoSuchFieldError v3) {}
-        try {
-            arrn[Commands.OFF.ordinal()] = 5;
-        }
-        catch (NoSuchFieldError v4) {}
-        try {
-            arrn[Commands.ON.ordinal()] = 4;
-        }
-        catch (NoSuchFieldError v5) {}
-        try {
-            arrn[Commands.RAINBOOM.ordinal()] = 7;
-        }
-        catch (NoSuchFieldError v6) {}
-        try {
-            arrn[Commands.TOGGLE.ordinal()] = 2;
-        }
-        catch (NoSuchFieldError v7) {}
-        $SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands = arrn;
-        return $SWITCH_TABLE$org$equestria$minecraft$abilities$pegasus$flight$Commands;
-    }
+
 }
 

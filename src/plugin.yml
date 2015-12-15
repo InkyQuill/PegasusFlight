@@ -1,5 +1,5 @@
 name: PegasusAbilities
-main: org.equestria.minecraft.abilities.pegasus.PegasusAbilities
+main: net.inkyquill.equestria.flight.PegasusAbilities
 version: 0.1
 commands:
   flight:
