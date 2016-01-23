@@ -1,0 +1,15 @@
+name: PegasusAbilities
+main: PegasusAbilities
+version: 0.1
+commands:
+  flight:
+    description: Flight command.
+    aliases: fly
+    usage: /flight [command]
+  haste:
+    description: Hastes user when flying.
+  rainboom:
+    description: More haste for flying creatures.
+  flightadmin:
+    description: Administrates flight regions.
+    aliases: fa
