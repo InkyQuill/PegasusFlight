@@ -14,6 +14,11 @@ public class Region {
         Pos2 = loc2;
     }
 
+    public Region() {
+        Pos1 = null;
+        Pos2 = null;
+    }
+
     public static Region fromString(String s) {
         if (!s.contains(":"))
             return null;

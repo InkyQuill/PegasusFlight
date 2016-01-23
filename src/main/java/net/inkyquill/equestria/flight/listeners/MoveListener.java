@@ -1,9 +1,9 @@
 
 package net.inkyquill.equestria.flight.listeners;
 
+import net.inkyquill.equestria.flight.handle.FlightHandler;
 import net.inkyquill.equestria.flight.math.FlightBean;
 import net.inkyquill.equestria.flight.properties.Settings;
-import net.inkyquill.equestria.flight.handle.FlightHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,13 +20,12 @@ public class MoveListener
         Player player = event.getPlayer();
         if (player.hasPermission(Settings.FlightEnabled)) {
             if (!FlightHandler.CheckRegion(player)) {
-                FlightHandler.enableFly(player);
+                player.setAllowFlight(true);
                 FlightBean flightBean = new FlightBean(0, 0);
                 synchronized (FlightHandler.lock) {
                     if (FlightHandler.hasteMap.containsKey(player)) {
                         flightBean = FlightHandler.hasteMap.get(player);
                     }
-
                     if (flightBean.getDuration() > 0) {
                         Vector newVec = player.getLocation().getDirection().multiply(flightBean.getPower());
                         player.setVelocity(newVec);

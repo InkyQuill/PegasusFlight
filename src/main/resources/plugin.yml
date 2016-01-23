@@ -1,11 +1,7 @@
 name: PegasusAbilities
-main: PegasusAbilities
+main: net.inkyquill.equestria.flight.PegasusAbilities
 version: 0.1
 commands:
-  flight:
-    description: Flight command.
-    aliases: fly
-    usage: /flight [command]
   haste:
     description: Hastes user when flying.
   rainboom:

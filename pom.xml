@@ -6,7 +6,7 @@
     <name>net.inkyquill.equestria.flight</name>
     <groupId>net.inkyquill.equestria</groupId>
     <artifactId>flight</artifactId>
-    <version>1.0</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <!-- Свойства -->

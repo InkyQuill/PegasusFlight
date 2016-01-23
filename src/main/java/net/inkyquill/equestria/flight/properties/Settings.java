@@ -39,14 +39,17 @@ public class Settings {
     public static int RainboomHungerLevel;
     public static Map<Player, FlightBean> HasteMap;
 
+    public static Map<Player, Region> RegionTemp;
+
     static {
         FlightEnabled = new Permission("flight.enabled");
         BypassRestrictions = new Permission("flight.bypass");
         FlightAdmin = new Permission("flight.admin");
         NoFallDamage = new Permission("flight.nodamage");
         wand = Material.FEATHER;
-        Regions = new HashMap<String, Region>();
-        HasteMap = new HashMap<Player, FlightBean>();
+        Regions = new HashMap<>();
+        HasteMap = new HashMap<>();
+        RegionTemp = new HashMap<>();
         HasteLock = new Object();
     }
 
@@ -64,6 +67,7 @@ public class Settings {
 
         Regions.clear();
         Map<String, Object> RegionsList = config.getConfigurationSection("regions").getValues(false);
+        if (RegionsList != null)
         for (String key : RegionsList.keySet()) {
             String val = (String) (RegionsList.get(key));
             Region reg = Region.fromString(val);
@@ -84,12 +88,19 @@ public class Settings {
         config.set("rainboom.hunger", RainboomHunger);
         config.set("rainboom.hungerlevel", RainboomHungerLevel);
 
-        Map<String, String> RegionsList = new HashMap<String, String>();
+        Map<String, String> RegionsList = new HashMap<>();
         for (String key : Regions.keySet()) {
             RegionsList.put(key, Regions.get(key).toString());
         }
         config.createSection("regions", RegionsList);
         plugin.saveConfig();
+    }
+
+    public static Region getTemp(Player p) {
+        if (!RegionTemp.containsKey(p)) {
+            RegionTemp.put(p, new Region());
+        }
+        return RegionTemp.get(p);
     }
 }
 
